@@ -41,9 +41,11 @@
                 <div class="d-flex justify-content-center">
                     <img src="{{ asset('/img/2896l.jpg') }}" class="rounded-circle" width="60" height="60">
                 </div>
+                @if (Auth::user())
                 <div class="d-flex justify-content-center">
                     <a href=""> {{ Auth::user()->name }} </a>
                 </div>
+                @endif
             </div>
             
             <ul class="list-group text-center mt-2">
