@@ -18,7 +18,7 @@ docker立ち上げ後に設定した項目はないと記憶していますが�
 立ち上げ後、データベースmaigration -> SQLのインポートでデータが復元されるかと思います。
 SQLはmy-ytbm.sqlです。
 
-立ち上げ後のlogin は User: azumau@gmail.com   Password: tomotomo
+立ち上げ後のlogin は User: test@mail.com   Password: password
 でログインできます。もちろん新規ユーザ作成してブックマーク作成も可能です。
 
 立ち上げ後 Edit My MBM メニューで新規ブックマークの追加、ブックマーク内の番組追加ができます。
