@@ -16,7 +16,7 @@ docker-compose up -d
 docker立ち上げ後に設定した項目はないと記憶していますが、もしあったらすみません。
 
 立ち上げ後、データベースmaigration -> SQLのインポートでデータが復元されるかと思います。
-SQLはmy-ytbm.sqlです。
+SQLはmy-ytbm.sqlです。　phpmyadmin は　http://localhost:8080/
 
 立ち上げ後のlogin は User: test@mail.com   Password: password
 でログインできます。もちろん新規ユーザ作成してブックマーク作成も可能です。
