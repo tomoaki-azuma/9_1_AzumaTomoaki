@@ -29,7 +29,7 @@
             <div>
                 
                 <div class="d-flex">
-                    <h4>Edit Your Favorites</h4><a href="/home" class="btn btn-secondary btn-sm mx-3" role="button">Back</a>
+                    <h4>Add Your Favorites</h4><a href="/home" class="btn btn-secondary btn-sm mx-3" role="button">Back</a>
                 </div>
                 <div>
                     <div class="d-flex mx-0 mt-3">
@@ -83,21 +83,6 @@
                                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                             </div>
                             <!-- Modal body -->
-                            <div class="modal-body">
-                                <ul class="nav nav-tabs">
-                                    <li class="nav-item">
-                                    <a href="#theme" class="nav-link active" data-toggle="tab">edit</a>
-                                    </li>
-                                    <template v-if="edit_type === 'create'">
-                                        <li class="nav-item">
-                                        <a href="#tag" class="nav-link" data-toggle="tab">tag</a>
-                                        </li>
-                                        <li class="nav-item">
-                                        <a href="#keyword" class="nav-link" data-toggle="tab">keyword</a>
-                                        </li>
-                                    </template>
-                                </ul>
-                            </div>
                             <div class="tab-content mx-3">
                                 <div id="theme" class="tab-pane active">
                                     <div class="form-group">

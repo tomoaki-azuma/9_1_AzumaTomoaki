@@ -39,11 +39,11 @@
             </div>
             <div class="sidebar-header py-2">
                 <div class="d-flex justify-content-center">
-                    <img src="{{ asset('/img/2896l.jpg') }}" class="rounded-circle" width="60" height="60">
+                    <img src="{{ asset('/storage/'.$auth->img_url) }}" class="rounded-circle" width="60" height="60">
                 </div>
                 @if (Auth::user())
                 <div class="d-flex justify-content-center">
-                    <a href=""> {{ Auth::user()->name }} </a>
+                    <a href="/user"> {{ $auth->name }} </a>
                 </div>
                 @endif
             </div>

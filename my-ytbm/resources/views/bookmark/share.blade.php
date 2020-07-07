@@ -33,11 +33,21 @@
                                         <td class="">
                                             <i class="fab fa-facebook"></i>
                                             <i class="fab fa-twitter"></i>
+                                            <i class="fas fa-qrcode" data-toggle="modal" data-target="#qrModal" @click="create_qr_code(bookmark.share_token)"></i>
                                         </td>
                                     </tr>
                                 </template>
                             </tbody>
                         </table>
+                    </div>
+                </div>
+            </div>
+            <div class="modal fade" id="qrModal">
+                <div class="modal-dialog modal-sm">
+                    <div class="modal-content">
+                        <div class="text-center my-3">
+                            <img v-bind:src="qr_code_url" width="200" height="200" alt="" title="" /> 
+                        </div>
                     </div>
                 </div>
             </div>
@@ -51,18 +61,23 @@
     let vm = new Vue({
         el: '#app',
         data: {
-            bookmarks: []
+            bookmarks: [],
+            qr_code_url: ''
         },
         methods: {
             date_format: function(date) {
                 d = new Date(date);
                 console.log(d);
                 return d.getFullYear() + '/' + (d.getMonth()+1) + '/' + d.getDate();
+            },
+            create_qr_code: function(token) {
+                shared_url = "{{ $shared_url }}";
+                this.qr_code_url = `https://api.qrserver.com/v1/create-qr-code/?data=${shared_url}${token}&amp;size=200x200`;
             }
         },
         created: function() {
             axios
-                .get('/bookmark/user/{{ $user_id }}')
+                .get('/bookmark/user/{{ $auth->id }}')
                 .then( response => {
                     this.bookmarks = response.data;
                 })    

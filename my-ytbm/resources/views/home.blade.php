@@ -18,7 +18,7 @@
                         <thead class="bg-warning">
                             <tr>
                                 <th class="text-center">Title</th>
-                                <th class="text-center">Description</th>
+                                <th class="text-center">Comment</th>
                                 <th class="text-center">Create Date</th>
                                 <th></th>
                             </tr>
@@ -59,7 +59,7 @@
         },
         created: function() {
             axios
-                .get('/bookmark/user/{{ $user_id }}')
+                .get('/bookmark/user/{{ $auth->id }}')
                 .then( response => {
                     this.bookmarks = response.data;
                 })    

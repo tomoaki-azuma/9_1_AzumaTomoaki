@@ -34,7 +34,8 @@ class BookmarkController extends Controller
     }
 
     public function create() {
-        return view('bookmark.create');
+        $auth = Auth::user();
+        return view('bookmark.create', ['auth' => $auth]);
     }
 
     public function store(Request $request) {
@@ -62,13 +63,14 @@ class BookmarkController extends Controller
 
     public function edit($id) {
         $bookmark = Bookmark::find($id);
-        return view('bookmark.edit', ['bookmark' => $bookmark]);
+        $auth = Auth::user();
+        return view('bookmark.edit', ['bookmark' => $bookmark, 'auth' => $auth]);
     }
 
     public function share()
     {
-        $user_id = Auth::user()->id;
-        return view('bookmark.share', ['user_id' => $user_id]);
+        $auth = Auth::user();
+        return view('bookmark.share', ['auth' => $auth]);
     }
 
 }

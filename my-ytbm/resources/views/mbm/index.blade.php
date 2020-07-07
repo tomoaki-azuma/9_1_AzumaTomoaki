@@ -12,7 +12,7 @@
         
         <style>
             html {
-                font-size: 14px; /* ルート要素のフォントサイズを1rem=14pxと定義する */
+                font-size: 16px; /* ルート要素のフォントサイズを1rem=14pxと定義する */
             }
 
             .card {
@@ -34,115 +34,119 @@
     </head>
     <body>
     
-        <div class="container-xs pt-3 mx-5">
-            <div id="app">
-    
-            <div class="sticky-top ">
-                <div class="row d-flex justify-content-center bg-primary text-white p-2">
-                    <div><h3 class="m-0 mx-2">{{ $bookmark->title }}</h3></div>
-                </div>
-                <div class="row mt-3">
-                    <div class="mx-2">
-                        <i class="fas fa-list-ol fa-2x" @click="display_all"></i>
-                    </div>
-                    <div class="mx-3">
-                        <i class="far fa-question-circle fa-2x" data-toggle="modal" data-target="#aboutModal"></i>
-                    </div>
-                    <div class="mx-2">
-                        <input type="text" v-model="search_keyword" @input="search_by_keyword" placeholder="search title">
-                    </div>
-                 </div>
-                    
-                <div v-show="ytplay_flg">
-                    <div class="row d-flex justify-content-center bg-light">
-                        <div id="ytarea"></div>
-                        <p @click="closeYT">
-                        <i class="far fa-times-circle fa-2x"></i>
-                        </p>
-                    </div>
-                </div>
-            </div>
-    
-            <div class="modal fade" id="aboutModal">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-    
-                        <!-- Modal Header -->
-                        <div class="modal-header">
-                            <h5 class="modal-title">{{ $bookmark->title }}</h5>
-                            <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        </div>
-                        <!-- Modal body -->
-                        <div class="m-3">
-                            <div class="my-3">
-                                <h5 class="book_title my-2">About {{ $bookmark->title }} </h5>
-                                <div>
-                                    {{ $bookmark->comment }}
+        <div class="container-fluid d-flex justify-content-center p-0">
+            <div class="col-xs-12 col-xl-6 col-lg-8">
+                <div class="">
+                    <div id="app">
+                        
+        
+                            <div class="sticky-top ">
+                                <div class="row d-flex justify-content-between bg-primary text-white p-2">
+                                    <div><h4 class="">{{ $bookmark->title }}</h4></div>
+                                    <div class="mx-3">
+                                        <i class="fas fa-info-circle fa-2x" data-toggle="modal" data-target="#aboutModal"></i>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="my-3">
-                                <h5 class="book_title my-2">操作方法</h5>
-                                <div class="px-3">
-                                    小学生からお年寄りまで簡単に操作できることを目指してわかりやすくしています。ポイントのみ説明します。<br><br>
+                                <div class="mx-3">
+                                    <div class="row mt-3">
+                                        <div class="row mr-auto">
+                                            <div class="ml-3">
+                                                <input type="text" v-model="search_keyword" @input="search_by_keyword" placeholder="search title">
+                                            </div>
+                                        </div>
+                                        <div>
+                                            editor: {{ $editor->name}}
+                                        </div>
+                                        
+                                    </div>
                                 </div>
-                                <div class="px-3">
-                                    <div class="">
-                                        <div class="my-2">
-                                            <i class="fas fa-list-ol"></i><br>
-                                            検索などにより絞り込みがされた状態で押すと全部の番組を表示します。全部表示されている時は何もおこりません。
-                                        </div>
-                                        <div class="my-2">
-                                            <i class="fas fa-sort"></i><br>
-                                            表示されている番組をソートします。ソートは一覧に表示のあるPodcastの配信日によります。
-                                        </div>
-                                        <div class="my-2">
-                                            <i class="fab fa-youtube"></i><br>
-                                            Youtubeを再生します。読み込めない時がありますが再度押すと大丈夫です（改良検討中）。
-                                        </div>
+                                
+                                    
+                                <div v-show="ytplay_flg">
+                                    <div class="row d-flex justify-content-center bg-light">
+                                        <div id="ytarea"></div>
+                                        <p @click="closeYT">
+                                        <i class="far fa-times-circle fa-2x"></i>
+                                        </p>
                                     </div>
                                 </div>
                             </div>
-                            <div class="my-3">
-                                <h5 class="book_title my-2">My-MBM より</h5>
-                                <div class="px-3">
-                                    自分の好きをシェアしよう
-                                </div>
+
+                        
+                        
+            
+                        <div class="modal fade" id="aboutModal">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                
+                                    <!-- Modal Header -->
+                                    <div class="modal-header bg-warning text-white">
+                                        <h4 class="modal-title">Information</h4>
+                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                    </div>
+                                    <!-- Modal body -->
+                                    <div class="m-3">
+                                        <div class="my-3">
+                                            <h5 class="book_title my-2">About {{ $bookmark->title }} </h5>
+                                            <div>
+                                                {{ $bookmark->comment }}
+                                            </div>
+                                        </div>
+                                        <div class="my-3">
+                                            <h5 class="book_title my-2">Editor</h5>
+                                            <div class="d-flex justify-content-center my-4">
+                                                <div class="text-center">
+                                                    <div>
+                                                        <img src="{{ asset('/storage/'.$editor->img_url) }}" class="rounded-circle" width="60" height="60">
+                                                    </div>
+                                                    <div>
+                                                        {{ $editor->name }}
+                                                    </div>
+                                                </div>
+                                                
+                                            </div>
+                                        </div>
+                                        <div class="my-3">
+                                            <h5 class="book_title my-2">FROM My-MBM</h5>
+                                            <div class="px-3">
+                                                自分の好きをシェアしよう
+                                            </div>
+                                            
+                                        </div>
+                
+                                    </div>
                                 
+                                    
+                                </div>
                             </div>
-    
                         </div>
-                       
+                
+                        <div>
+                            <div class="d-flex mx-0 mt-3">
+                                <div><i class="fas fa-sort fa-2x" @click="sort_change()"></i></div>
+                            </div>
+                            <div v-for="data in searched_program" class="border border-left-0 border-right-0 border-top-1 my-2 py-1 mx-2 pl-2">
+                                <div class="row mt-1">
+                                    <div class="text-left px-0" v-cloak><span class="badge badge-secondary mr-1">Title</span> @{{ data['title'] }} </div>
+                                </div>
+                                <div class="row">
+                                    <div class="text-left px-0" v-cloak><span class="badge badge-secondary mr-1">Comment</span> @{{ data['comment'] }} </div>
+                                </div>
+                                <div class="row d-flex justify-content-end align-self-end">
+                                    <template v-if="data['youtube_url'] != ''">
+                                    <div class="mx-2">
+                                        <p @click="playYT(data['youtube_url'])">
+                                            <i class="fab fa-youtube fa-2x"></i>
+                                        </p>
+                                    </div>
+                                    </template>
+                                </div>
+                            </div>
+                        </div>
+            
                         
                     </div>
                 </div>
-            </div>
-    
-            <div>
-                <div class="d-flex mx-0 mt-3">
-                    <div><i class="fas fa-sort fa-2x" @click="sort_change()"></i></div>
-                </div>
-                <div v-for="data in searched_program" class="border border-left-0 border-right-0 border-top-0 my-1 py-1 mx-1 px-0">
-                    <div class="row">
-                        <div class="text-left px-0" v-cloak> @{{ data['title'] }} </div>
-                    </div>
-                    <div class="row">
-                        <div class="text-left px-0" v-cloak> @{{ data['comment'] }} </div>
-                    </div>
-                    <div class="row d-flex justify-content-end align-self-end">
-                        <template v-if="data['youtube_url'] != ''">
-                        <div class="mx-2">
-                            <p @click="playYT(data['youtube_url'])">
-                                <i class="fab fa-youtube fa-2x"></i>
-                            </p>
-                        </div>
-                        </template>
-                    </div>
-                </div>
-            </div>
-    
-                
-                </div>
-    
             </div>
         </div>
         
