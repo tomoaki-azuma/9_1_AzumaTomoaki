@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Program;
+use App\Url;
 
 class ProgramController extends Controller
 {
@@ -18,7 +19,7 @@ class ProgramController extends Controller
     }
 
     public function show_by_bmid($bm_id) {
-        $programs = Program::where('bookmark_id', $bm_id)->get();
+        $programs = Program::with('urls:id,url,file_type,program_id')->where('bookmark_id',$bm_id)->get();
         return $programs->toArray();
     }
 
@@ -29,7 +30,7 @@ class ProgramController extends Controller
 
     public function store(Request $request) {
         
-        $form = $request->all();    
+        $form = $request->all();
         $program = new Program;
 
 
@@ -41,11 +42,18 @@ class ProgramController extends Controller
         $program->bookmark_id = $form['bookmark_id'];
         $program->title = $form['title'];
         $program->comment = $form['comment'];
-        $program->youtube_url = $form['youtube_url'];
-
         $program->save();
 
-        $programs = Program::where('bookmark_id', $form['bookmark_id'])->get();
+        $new_program_urls = $form['new_program_urls'];
+        foreach ($new_program_urls as $new_program_url) {
+            $url = new Url;
+            $url->url = $new_program_url['url'];
+            $url->file_type = $new_program_url['file_type'];
+            $url->program_id = $program->id;
+            $url->save();
+        }
+
+        $programs = Program::with('urls:id,url,file_type,program_id')->where('bookmark_id',$program->bookmark_id)->get();
         return $programs->toArray();
 
     }
@@ -54,7 +62,7 @@ class ProgramController extends Controller
         
         Program::destroy($request->id);
 
-        $programs = Program::where('bookmark_id', $request->bookmark_id)->get();
+        $programs = Program::with('urls:id,url,file_type,program_id')->where('bookmark_id',$request->bookmark_id)->get();
         return $programs->toArray();
 
     }

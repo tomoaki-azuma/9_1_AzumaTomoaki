@@ -27,13 +27,12 @@
             </div>
             
             <div>
-                
                 <div class="d-flex">
                     <h4>Add Your Favorites</h4><a href="/home" class="btn btn-secondary btn-sm mx-3" role="button">Back</a>
                 </div>
                 <div>
                     <div class="d-flex mx-0 mt-3">
-                        <a href="" data-toggle="modal" data-target="#myModal" @click="edit_type = 'create'">
+                        <a href="" data-toggle="modal" data-target="#myModal" @click="init_program_modal">
                             <button type="button" class="btn btn-primary btn-sm">Add Program</button>
                         </a>
                     </div>
@@ -43,13 +42,35 @@
                             <div class="text-left px-2" v-cloak>@{{ program.title }} </div>
                         </div>
                         <div class="row">
-                            <div class="text-left px-2"><span class="badge badge-secondary">URL</span></div>
-                            <div class="text-left px-0" v-cloak><a v-bind:href="program.youtube_url" target="_blank">@{{ program.youtube_url }}</a></div>
-                        </div>
-                        <div class="row">
                             <div class="text-left px-2"><span class="badge badge-secondary">Comment</span></div>
                             <div class="text-left px-2" v-cloak>@{{ program.comment }} </div>
                         </div>
+                        <div class="row">
+                            <div class="text-left px-2"><span class="badge badge-secondary">URL</span></div>
+                            <div class="text-left px-2" v-cloak>
+                                <div v-for="url_element in program.urls" class="row">
+                                    <div>
+                                    <template v-if="url_element.file_type == 'y'">
+                                        <i class="fab fa-youtube mx-2"></i>
+                                    </template>
+                                    <template v-if="url_element.file_type == 'p'">
+                                        <i class="fas fa-podcast mx-2"></i>
+                                    </template>
+                                    <template v-if="url_element.file_type == 'i'">
+                                        <i class="fas fa-images mx-2"></i>
+                                    </template>
+                                    <template v-if="url_element.file_type == 'w'">
+                                        <i class="far fa-file-alt mx-2"></i>
+                                    </template>
+                                    <template v-if="url_element.file_type == 's'">
+                                        <i class="fab fa-dropbox mx-2"></i></i>
+                                    </template>
+                                    </div>
+                                    <div><a v-bind:href="url_element['url']" target="_blank">@{{ url_element['url'] }}</a></div>
+                                </div>
+                            </div>
+                        </div>
+                        
                         <div class="row d-flex justify-content-end align-self-end">
                              <div class="mx-2">
                                 <a href="" data-toggle="modal" data-target="#myModal" @click="edit_program(program)">
@@ -93,9 +114,48 @@
                                         <label for="new_program_comment" class="mr-3">Comment</label>
                                         <textarea v-model="new_program_comment" class="form-control"></textarea>
                                     </div>
-                                    <div class="form-group">
-                                        <label for="new_program_youtube_url" class="mr-3">Youtube URL</label>
-                                        <textarea v-model="new_program_youtube_url" class="form-control"></textarea>
+                                    <div class="border-bottom border-danger">Contents URL (up to 3)</div>
+                                    <div v-for="(new_url, index) in new_program_urls" class="border-bottom border-secondary">
+                                        <label for="new_url.file_type" class="mr-3 mt-3">File type</label>
+                                        <div class="form-group">
+                                            <div class="d-flex">
+                                                <div class="form-check mr-2">
+                                                    <input class="form-check-input" type="radio" v-model="new_url.file_type" v-bind:id="index" value="y">
+                                                    <label class="form-check-label" for="radio1a">You Tube</label>
+                                                </div>
+                                                <div class="form-check mr-2">
+                                                    <input class="form-check-input" type="radio" v-model="new_url.file_type" v-bind:id="index" value="p">
+                                                    <label class="form-check-label" for="radio1a">Pod Cast</label>
+                                                </div>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="radio" v-model="new_url.file_type" v-bind:id="index" value="w">
+                                                    <label class="form-check-label" for="radio1a">Web page</label>
+                                                </div>
+                                            </div>
+                                            <div class="d-flex">
+                                                <div class="form-check mr-2">
+                                                    <input class="form-check-input" type="radio" v-model="new_url.file_type" v-bind:id="index" value="s">
+                                                    <label class="form-check-label" for="radio1a">Shared File</label>
+                                                </div>
+                                                <div class="form-check mr-2">
+                                                    <input class="form-check-input" type="radio" v-model="new_url.file_type" v-bind:id="index" value="i">
+                                                    <label class="form-check-label" for="radio1a">Image</label>
+                                                </div>
+                                            </div>
+                                            
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="new_url.url" class="mr-3">URL</label>
+                                            <textarea v-model="new_url.url" class="form-control"></textarea>
+                                        </div>
+                                        <div class="d-flex justify-content-center mb-2">
+                                            <template v-if="index < 2">
+                                                <i class="far fa-plus-square fa-2x mr-1" @click="add_url_form"></i>
+                                            </template>
+                                            <template v-if="index > 0">
+                                                <i class="far fa-minus-square fa-2x ml-1" @click="del_url_form(index)"></i>
+                                            </template>
+                                        </div>
                                     </div>
                                     <div class="row my-3 mx-2 d-flex justify-content-center">
                                         <template v-if="edit_type === 'delete'">
@@ -134,11 +194,21 @@
             programs: [],
             new_program_title: '',
             new_program_comment: '',
-            new_program_youtube_url: '',
+            new_program_urls: [],
             edit_type: '',
             program_id: ''
         },
         methods: {
+            init_program_modal: function() {
+                this.edit_type = 'create';
+                this.new_program_urls = [{file_type: '', url: ''}];
+            },
+            add_url_form: function() {
+                this.new_program_urls.push({file_type: '', url: ''});
+            },
+            del_url_form: function(index) {
+                this.new_program_urls.splice( index, 1 );
+            },
             submit_new_program: function() {
                 axios
                 .post('/program/store', {
@@ -147,7 +217,7 @@
                     bookmark_id: {{ $bookmark->id }},
                     title: this.new_program_title,
                     comment: this.new_program_comment,
-                    youtube_url: this.new_program_youtube_url,
+                    new_program_urls: this.new_program_urls,
                     type: this.edit_type
                 })
                 .then( response => {

@@ -17,10 +17,12 @@ class MbmController extends Controller
     }
 
     public function get_programs($id) {
-        $programs = Program::where('bookmark_id', $id)->get();
+        $programs = Program::with('urls:id,url,file_type,program_id')->where('bookmark_id',$id)->get();
         
         foreach ($programs as $program) {
-            $program->youtube_url = self::convert_youtube_url($program->youtube_url);
+            foreach ($program->urls as $url_element) {
+                 $url_element->url = self::convert_youtube_url($url_element->url);
+            }
         }
         
         return $programs->toArray();

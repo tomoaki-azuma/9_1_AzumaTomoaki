@@ -87,7 +87,6 @@
                 @yield('content')
             </div>
         </div>
-
     </div>
 
     @yield('vuepart')

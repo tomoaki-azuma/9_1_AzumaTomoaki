@@ -39,10 +39,9 @@
                 <div class="">
                     <div id="app">
                         
-        
                             <div class="sticky-top ">
                                 <div class="row d-flex justify-content-between bg-primary text-white p-2">
-                                    <div><h4 class="">{{ $bookmark->title }}</h4></div>
+                                    <div><h4 class="ml-1">{{ $bookmark->title }}</h4></div>
                                     <div class="mx-3">
                                         <i class="fas fa-info-circle fa-2x" data-toggle="modal" data-target="#aboutModal"></i>
                                     </div>
@@ -120,12 +119,11 @@
                                 </div>
                             </div>
                         </div>
-                
                         <div>
                             <div class="d-flex mx-0 mt-3">
                                 <div><i class="fas fa-sort fa-2x" @click="sort_change()"></i></div>
                             </div>
-                            <div v-for="data in searched_program" class="border border-left-0 border-right-0 border-top-1 my-2 py-1 mx-2 pl-2">
+                            <div v-for="data in searched_program" class="border-top my-2 py-1 mx-2 pl-2">
                                 <div class="row mt-1">
                                     <div class="text-left px-0" v-cloak><span class="badge badge-secondary mr-1">Title</span> @{{ data['title'] }} </div>
                                 </div>
@@ -133,13 +131,31 @@
                                     <div class="text-left px-0" v-cloak><span class="badge badge-secondary mr-1">Comment</span> @{{ data['comment'] }} </div>
                                 </div>
                                 <div class="row d-flex justify-content-end align-self-end">
-                                    <template v-if="data['youtube_url'] != ''">
-                                    <div class="mx-2">
-                                        <p @click="playYT(data['youtube_url'])">
-                                            <i class="fab fa-youtube fa-2x"></i>
-                                        </p>
+                                    <div v-for="url_element in data.urls" class="my-1">
+                                        <div v-if="url_element.file_type == 'y'" @click="playYT(url_element['url'])">
+                                            <i class="fab fa-youtube mx-2 fa-2x"></i>
+                                        </div>
+                                        <div v-if="url_element.file_type == 'p'">
+                                            <a v-bind:href="url_element['url']" target="_blank">
+                                                <i class="fas fa-podcast mx-2 fa-2x"></i>
+                                            </a>
+                                        </div>
+                                        <div v-if="url_element.file_type == 'i'">
+                                            <a v-bind:href="url_element['url']" target="_blank">
+                                                <i class="fas fa-images mx-2 fa-2x"></i>
+                                            </a>
+                                        </div>
+                                        <div v-if="url_element.file_type == 'w'">
+                                            <a v-bind:href="url_element['url']" target="_blank">
+                                                <i class="far fa-file-alt mx-2 fa-2x"></i>
+                                            </a>
+                                        </div>
+                                        <div v-if="url_element.file_type == 's'">
+                                            <a v-bind:href="url_element['url']" target="_blank">
+                                                <i class="fab fa-dropbox mx-2 fa-2x"></i>
+                                            </a>
+                                        </div>
                                     </div>
-                                    </template>
                                 </div>
                             </div>
                         </div>
@@ -170,7 +186,6 @@ let vm = new Vue({
         themes: [],
         searched_program: [],
         sort_flg: 'd',  // ascending or decending
-        book_json: [],
         search_keyword: ""
     },
     methods: {
@@ -252,6 +267,9 @@ let vm = new Vue({
                 return value.id === id;       
             }, id)
         }
+    },
+    computed: {
+
     },
     mounted: function() {
         axios
