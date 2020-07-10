@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- ホスト: mysql
--- 生成日時: 2020 年 7 月 02 日 12:40
+-- 生成日時: 2020 年 7 月 10 日 04:24
 -- サーバのバージョン： 5.7.30
 -- PHP のバージョン: 7.4.6
 
@@ -42,11 +42,9 @@ CREATE TABLE `bookmarks` (
 --
 
 INSERT INTO `bookmarks` (`id`, `user_id`, `title`, `comment`, `share_token`, `created_at`, `updated_at`) VALUES
-(12, 3, 'ralavel', 'laravel', '5ef9f854d629a', '2020-06-29 14:19:00', '2020-06-29 14:19:00'),
 (13, 3, '落語チャンネル', 'いろんな落語があるよ', '5ef9f929cc34f', '2020-06-29 14:22:33', '2020-06-29 14:22:33'),
-(14, 3, '野球好プレー集desu', 'いろんな野球の好プレー集を揃えたよ。!', '5efaaeb05df87', '2020-06-30 03:17:04', '2020-07-01 04:33:40'),
-(15, 3, '昭和の歌 you tube', '昭和の歌を集めてみたよ。', '5efadbbbbfc44', '2020-06-30 06:29:15', '2020-06-30 06:29:15'),
-(16, 3, 'デプロイラジオ', 'Gs academy 山崎先生とすがやんによるプログラミングのお話！？', '5efdcb1dc8448', '2020-07-02 11:55:09', '2020-07-02 11:55:09');
+(16, 3, 'デプロイラジオ', 'Gs academy 山崎先生とすがやんによるプログラミングのお話！？', '5efdcb1dc8448', '2020-07-02 11:55:09', '2020-07-02 11:55:09'),
+(17, 3, 'アコギチャンネル by つば九郎', 'アコースティックギターのじょうずなひとたち。ちょっとまにあっくかな。', '5f07e4892da37', '2020-07-10 03:46:17', '2020-07-10 03:53:06');
 
 -- --------------------------------------------------------
 
@@ -85,7 +83,10 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (3, '2019_08_19_000000_create_failed_jobs_table', 1),
 (5, '2020_06_24_025024_create_bookmarks', 2),
 (6, '2020_06_30_070447_create_program_table', 3),
-(7, '2020_06_30_072420_add_bookmarkid_to_program', 4);
+(10, '2020_06_30_072420_add_bookmarkid_to_program', 4),
+(11, '2020_07_06_034351_alter_user_table', 5),
+(12, '2020_07_08_085928_create_urls_table', 6),
+(13, '2020_07_08_092545_drop_column_program', 7);
 
 -- --------------------------------------------------------
 
@@ -115,30 +116,73 @@ INSERT INTO `password_resets` (`email`, `token`, `created_at`) VALUES
 CREATE TABLE `program` (
   `id` int(10) UNSIGNED NOT NULL,
   `user_id` int(11) NOT NULL,
-  `bookmark_id` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `title` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `comment` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `youtube_url` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `bookmark_id` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- テーブルのデータのダンプ `program`
 --
 
-INSERT INTO `program` (`id`, `user_id`, `bookmark_id`, `title`, `comment`, `youtube_url`, `created_at`, `updated_at`) VALUES
-(13, 1, '13', '【立川志らく】YouTubeで落語「子別れ」(2020.5)', NULL, 'https://www.youtube.com/watch?v=Tm-iL1_FK64', '2020-07-02 02:09:31', '2020-07-02 02:09:31'),
-(14, 1, '13', '古今亭志ん朝　酢豆腐　落語', NULL, 'https://www.youtube.com/watch?v=1Mu2jM7RmsQ', '2020-07-02 02:09:53', '2020-07-02 02:09:53'),
-(15, 1, '13', '文楽 心眼', NULL, 'https://www.youtube.com/watch?v=moycA_gbhbE', '2020-07-02 02:10:15', '2020-07-02 02:10:15'),
-(16, 1, '13', '米朝 本能寺', NULL, 'https://www.youtube.com/watch?v=bxuZvSHOBDM', '2020-07-02 02:11:22', '2020-07-02 02:11:22'),
-(17, 1, '13', '【キモおもしろい】 アンガールズ田中の落語 「猫の皿」', 'アンガールズ田中さんによる落語。全然キモくなくて面白いです。', 'https://youtu.be/dIuKhrjNwGQ', '2020-07-02 04:47:14', '2020-07-02 04:47:14'),
-(18, 1, '13', '31 25 超入門！落語　ＴＨＥ　ＭＯＶＩＥ「猫の皿」「三方一両損」 161130 PANDORATV', NULL, 'https://www.youtube.com/watch?v=WSUomi7eb9Q', '2020-07-02 11:03:25', '2020-07-02 11:03:25'),
-(19, 1, '13', '立川談志（七代目） - 粗忽長屋', NULL, 'https://www.youtube.com/watch?v=OtM0jxCVp_s', '2020-07-02 11:25:44', '2020-07-02 11:25:44'),
-(20, 1, '16', 'どうしたらエンジニアになれるの？#deploy001', NULL, 'https://www.youtube.com/watch?v=kh7-FsnC1Hg', '2020-07-02 11:56:12', '2020-07-02 11:59:35'),
-(21, 1, '16', '日本のIT業界の将来性について　#deploy002', NULL, 'https://www.youtube.com/watch?v=mlZBqeHVeTY', '2020-07-02 11:56:38', '2020-07-02 11:56:38'),
-(22, 1, '16', 'プログラミング言語とは？　#deploy003', NULL, 'https://www.youtube.com/watch?v=DUriVUPO2VI', '2020-07-02 11:56:58', '2020-07-02 11:59:43'),
-(23, 1, '16', 'サーバーサイドのプログラミング言語とは？　#deploy004', NULL, 'https://www.youtube.com/watch?v=ru9dFmxLyx0', '2020-07-02 11:57:17', '2020-07-02 11:57:17');
+INSERT INTO `program` (`id`, `user_id`, `title`, `comment`, `created_at`, `updated_at`, `bookmark_id`) VALUES
+(37, 3, 'proyakyu', 'comemememem', '2020-07-08 14:30:56', '2020-07-08 14:30:56', '14'),
+(43, 3, 'どうしたらエンジニアになれるの？#deploy001', NULL, '2020-07-10 03:19:21', '2020-07-10 03:19:21', '16'),
+(44, 3, '日本のIT業界の将来性について　#deploy002', NULL, '2020-07-10 03:19:48', '2020-07-10 03:19:48', '16'),
+(45, 3, 'プログラミング言語とは？　#deploy003', NULL, '2020-07-10 03:20:13', '2020-07-10 03:20:13', '16'),
+(46, 3, 'サーバーサイドのプログラミング言語とは？　#deploy004', NULL, '2020-07-10 03:20:36', '2020-07-10 03:20:36', '16'),
+(47, 3, '「APIってなに？」～スピード感持って開発をする方法～　#deploy005', NULL, '2020-07-10 03:21:04', '2020-07-10 03:21:04', '16'),
+(48, 3, '【立川志らく】YouTubeで落語 「紺屋高尾」四席目 （2020.06）', NULL, '2020-07-10 03:43:33', '2020-07-10 03:43:33', '13'),
+(49, 3, '立川談志／芝浜', NULL, '2020-07-10 03:44:04', '2020-07-10 03:44:04', '13'),
+(50, 3, '【立川志らく】YouTubeで落語 「紺屋高尾」四席目 （2020.06）', NULL, '2020-07-10 03:44:51', '2020-07-10 03:44:51', '13'),
+(51, 3, 'Fried Pride BAD', NULL, '2020-07-10 03:46:59', '2020-07-10 03:46:59', '17'),
+(52, 3, 'Rodrigo y Gabriela - \'Tamacun\'', NULL, '2020-07-10 03:47:56', '2020-07-10 03:47:56', '17'),
+(53, 3, 'Rodrigo y Gabriela - Diablo Rojo - Live HD', NULL, '2020-07-10 03:48:44', '2020-07-10 03:48:44', '17'),
+(54, 3, 'BAHO\'S BOOGIE - BAHO ( Char　石田長生 )', NULL, '2020-07-10 03:49:43', '2020-07-10 03:49:43', '17'),
+(55, 3, '羊毛とおはな「ララルラ ラルララ」LIVE IN vale tudo !! \'07 12/14', NULL, '2020-07-10 03:53:42', '2020-07-10 03:53:42', '17'),
+(56, 3, 'Eric Clapton-01-Signe-1992-UNPLUGGED', NULL, '2020-07-10 03:54:50', '2020-07-10 03:54:50', '17');
+
+-- --------------------------------------------------------
+
+--
+-- テーブルの構造 `urls`
+--
+
+CREATE TABLE `urls` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `url` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `file_type` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `program_id` int(11) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- テーブルのデータのダンプ `urls`
+--
+
+INSERT INTO `urls` (`id`, `url`, `file_type`, `program_id`, `created_at`, `updated_at`) VALUES
+(1, 'youtube', 'y', 36, '2020-07-08 12:19:46', '2020-07-08 12:19:46'),
+(2, 'proyakyu.image', 'i', 37, '2020-07-08 14:30:56', '2020-07-08 14:30:56'),
+(9, 'oyutube.cojm', 'y', 40, '2020-07-09 06:56:42', '2020-07-09 06:56:42'),
+(10, 'eeee', 'p', 41, '2020-07-09 06:56:57', '2020-07-09 06:56:57'),
+(21, 'http://www.youtube.com/hogehoge', 'y', 38, '2020-07-10 02:39:14', '2020-07-10 02:39:14'),
+(25, 'https://www.youtube.com/watch?v=kh7-FsnC1Hg', 'y', 43, '2020-07-10 03:19:21', '2020-07-10 03:19:21'),
+(26, 'https://www.youtube.com/watch?v=mlZBqeHVeTY', 'y', 44, '2020-07-10 03:19:48', '2020-07-10 03:19:48'),
+(27, 'https://www.youtube.com/watch?v=DUriVUPO2VI&t=89s', 'y', 45, '2020-07-10 03:20:13', '2020-07-10 03:20:13'),
+(28, 'https://www.youtube.com/watch?v=ru9dFmxLyx0&t=42s', 'y', 46, '2020-07-10 03:20:36', '2020-07-10 03:20:36'),
+(29, 'https://www.youtube.com/watch?v=lLXOOAYDuho', 'y', 47, '2020-07-10 03:21:04', '2020-07-10 03:21:04'),
+(30, 'https://www.youtube.com/watch?v=1n9TbFFDo3w', 'y', 48, '2020-07-10 03:43:33', '2020-07-10 03:43:33'),
+(31, 'https://www.youtube.com/watch?v=e-cs9usnlhw', 'y', 49, '2020-07-10 03:44:04', '2020-07-10 03:44:04'),
+(32, 'https://www.youtube.com/watch?v=1n9TbFFDo3w', 'y', 50, '2020-07-10 03:44:51', '2020-07-10 03:44:51'),
+(33, 'https://www.youtube.com/watch?v=iol8Beq-C5Q', 'y', 51, '2020-07-10 03:46:59', '2020-07-10 03:46:59'),
+(34, 'https://www.youtube.com/watch?v=l-qgum7hFXk', 'y', 52, '2020-07-10 03:47:56', '2020-07-10 03:47:56'),
+(35, 'https://www.youtube.com/watch?v=PT9hvyDvKHA', 'y', 53, '2020-07-10 03:48:44', '2020-07-10 03:48:44'),
+(36, 'https://www.youtube.com/watch?v=K9AgoGPhnhw', 'y', 54, '2020-07-10 03:49:43', '2020-07-10 03:49:43'),
+(37, 'https://www.youtube.com/watch?v=LNJ4tL86WJs', 'y', 55, '2020-07-10 03:53:42', '2020-07-10 03:53:42'),
+(38, 'https://www.youtube.com/watch?v=1IA-tP8WmS4', 'y', 56, '2020-07-10 03:54:50', '2020-07-10 03:54:50');
 
 -- --------------------------------------------------------
 
@@ -154,17 +198,19 @@ CREATE TABLE `users` (
   `password` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `remember_token` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `comment` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `img_url` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- テーブルのデータのダンプ `users`
 --
 
-INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`) VALUES
-(1, 'tomoro', 'azumau@gmail.com', NULL, '$2y$10$W5kOv8F3xfgWAxJLkBuGZeJ61b5LWyi6WQOsqeEIYj7mqzwuey9k.', 'INlFhEV0ai49yBT9tD4ZLvJ1w914c1EOXndZuC67v0npXPhUcTMwZiWR0JEp', '2020-06-23 00:59:22', '2020-06-23 00:59:22'),
-(2, 'chiharu', 'chiharu@mail.com', NULL, '$2y$10$JgqOZo4t.83J75nOP1s2/e6nyeJdI389V06v2z5.dvhFH/R9cU0fC', NULL, '2020-06-24 06:09:48', '2020-06-24 06:09:48'),
-(3, 'test_user', 'test@mail.com', NULL, '$2y$10$0lwtRu6VUu5JLBVEuyKZZ.zAcVPreIG5jd.NeSt.Zp508w5/l0x3K', NULL, '2020-07-02 12:38:44', '2020-07-02 12:38:44');
+INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`, `comment`, `img_url`) VALUES
+(1, 'tomoro', 'azumau@gmail.com', NULL, '$2y$10$W5kOv8F3xfgWAxJLkBuGZeJ61b5LWyi6WQOsqeEIYj7mqzwuey9k.', 'iEi1ADS8GiyIXDXPJnb2LgRxnHSpD2swK4ox5D2gVejEJCC8p0QXKE4tRxEy', '2020-06-23 00:59:22', '2020-07-06 13:23:06', NULL, 'avatars/jRB6meS9sZvGyuBTt7EMdasAlqnoFREWLEV39K24.png'),
+(2, 'chiharu', 'chiharu@mail.com', NULL, '$2y$10$JgqOZo4t.83J75nOP1s2/e6nyeJdI389V06v2z5.dvhFH/R9cU0fC', NULL, '2020-06-24 06:09:48', '2020-07-07 02:06:24', NULL, 'avatars/mrqZF0JEQp2jTTtZsuDHlqhEMhROeBmUt2mw4dhb.jpeg'),
+(3, '2896', 'test@mail.com', NULL, '$2y$10$0lwtRu6VUu5JLBVEuyKZZ.zAcVPreIG5jd.NeSt.Zp508w5/l0x3K', NULL, '2020-07-02 12:38:44', '2020-07-09 07:02:53', 'やきゅうがすきです。', 'avatars/CP7LdvAgEYFRdVrijbgSOscsr0gtgJGI4TenOrDl.jpeg');
 
 --
 -- ダンプしたテーブルのインデックス
@@ -201,6 +247,12 @@ ALTER TABLE `program`
   ADD PRIMARY KEY (`id`);
 
 --
+-- テーブルのインデックス `urls`
+--
+ALTER TABLE `urls`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- テーブルのインデックス `users`
 --
 ALTER TABLE `users`
@@ -215,7 +267,7 @@ ALTER TABLE `users`
 -- テーブルのAUTO_INCREMENT `bookmarks`
 --
 ALTER TABLE `bookmarks`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- テーブルのAUTO_INCREMENT `failed_jobs`
@@ -227,13 +279,19 @@ ALTER TABLE `failed_jobs`
 -- テーブルのAUTO_INCREMENT `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- テーブルのAUTO_INCREMENT `program`
 --
 ALTER TABLE `program`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=57;
+
+--
+-- テーブルのAUTO_INCREMENT `urls`
+--
+ALTER TABLE `urls`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
 
 --
 -- テーブルのAUTO_INCREMENT `users`

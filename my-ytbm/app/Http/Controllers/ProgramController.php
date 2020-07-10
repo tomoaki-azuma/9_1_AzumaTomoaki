@@ -35,7 +35,11 @@ class ProgramController extends Controller
 
 
         if ($form['type'] == 'update') {
-            $program = Program::find($form['id']);
+            $program = Program::With('urls')->find($form['id']);
+            $urls = $program->urls;
+            foreach ($urls as $url) {
+                Url::destroy($url->id);
+            }
         } 
 
         $program->user_id = $form['user_id'];
@@ -45,7 +49,7 @@ class ProgramController extends Controller
         $program->save();
 
         $new_program_urls = $form['new_program_urls'];
-        foreach ($new_program_urls as $new_program_url) {
+        foreach ($new_program_urls as $new_program_url) {  
             $url = new Url;
             $url->url = $new_program_url['url'];
             $url->file_type = $new_program_url['file_type'];
@@ -59,8 +63,12 @@ class ProgramController extends Controller
     }
 
     public function destroy(Request $request) {
-        
+        $program = Program::find($request->id);
         Program::destroy($request->id);
+        $urls = $program->urls;
+        foreach ($urls as $url) {
+            Url::destroy($url->id);
+        }
 
         $programs = Program::with('urls:id,url,file_type,program_id')->where('bookmark_id',$request->bookmark_id)->get();
         return $programs->toArray();

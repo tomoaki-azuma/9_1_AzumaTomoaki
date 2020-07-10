@@ -125,10 +125,10 @@
                             </div>
                             <div v-for="data in searched_program" class="border-top my-2 py-1 mx-2 pl-2">
                                 <div class="row mt-1">
-                                    <div class="text-left px-0" v-cloak><span class="badge badge-secondary mr-1">Title</span> @{{ data['title'] }} </div>
+                                    <div class="text-left px-0" v-cloak>@{{ data['title'] }} </div>
                                 </div>
                                 <div class="row">
-                                    <div class="text-left px-0" v-cloak><span class="badge badge-secondary mr-1">Comment</span> @{{ data['comment'] }} </div>
+                                    <div class="text-left px-0" v-cloak>@{{ data['comment'] }} </div>
                                 </div>
                                 <div class="row d-flex justify-content-end align-self-end">
                                     <div v-for="url_element in data.urls" class="my-1">

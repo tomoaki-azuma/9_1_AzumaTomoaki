@@ -152,10 +152,11 @@
                                             <template v-if="index < 2">
                                                 <i class="far fa-plus-square fa-2x mr-1" @click="add_url_form"></i>
                                             </template>
-                                            <template v-if="index > 0">
-                                                <i class="far fa-minus-square fa-2x ml-1" @click="del_url_form(index)"></i>
-                                            </template>
+                                            <i class="far fa-minus-square fa-2x ml-1" @click="del_url_form(index)"></i>
                                         </div>
+                                    </div>
+                                    <div v-if="new_program_urls.length == 0" class="d-flex justify-content-center mb-2">
+                                        <i class="far fa-plus-square fa-2x mr-1" @click="add_url_form"></i>
                                     </div>
                                     <div class="row my-3 mx-2 d-flex justify-content-center">
                                         <template v-if="edit_type === 'delete'">
@@ -236,14 +237,14 @@
                 this.program_id = program.id;
                 this.new_program_title = program.title;
                 this.new_program_comment = program.comment;
-                this.new_program_youtube_url = program.youtube_url;
+                this.new_program_urls = Array.from(program.urls);
             },
             delete_program: function(program) {
                 this.edit_type = 'delete';
                 this.program_id = program.id;
                 this.new_program_title = program.title;
                 this.new_program_comment = program.comment;
-                this.new_program_youtube_url = program.youtube_url;
+                this.new_program_urls = program.urls;
             },
             submit_delete_program: function() {
                  axios

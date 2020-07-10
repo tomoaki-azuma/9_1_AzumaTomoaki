@@ -73,4 +73,10 @@ class BookmarkController extends Controller
         return view('bookmark.share', ['auth' => $auth]);
     }
 
+    public function destroy(Request $request) {
+        Bookmark::destroy($request->id);
+        return redirect('/home');
+    }
+
+
 }

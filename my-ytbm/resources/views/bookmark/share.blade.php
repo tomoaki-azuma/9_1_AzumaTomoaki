@@ -17,19 +17,19 @@
                         <table class="table table-bordered table-sm m-0">
                             <thead class="bg-warning">
                                 <tr>
-                                    <th class="text-center">Title</th>
-                                    <th class="text-center">Share URL</th>
+                                    <th class="text-center">Title(Link)</th>
+                                    <th class="text-center">Comment</th>
                                     <th class="text-center">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <template v-for="bookmark in bookmarks">
                                     <tr>
-                                        <td>@{{ bookmark.title }}</td>
                                         @php
-                                            $shared_url = config('app.url').':8000/mbm/'
+                                            $shared_url = 'http://localhost:8000/mbm/' // 要変更！
                                         @endphp
-                                        <td><a v-bind:href="'{{ $shared_url }}' + bookmark.share_token" target="_blank">{{ $shared_url }}@{{ bookmark.share_token }}</a></td>
+                                        <td><a v-bind:href="'{{ $shared_url }}' + bookmark.share_token" target="_blank">@{{ bookmark.title }}</a></td>
+                                        <td>@{{ bookmark.comment }}</td>
                                         <td class="">
                                             <i class="fab fa-facebook"></i>
                                             <i class="fab fa-twitter"></i>

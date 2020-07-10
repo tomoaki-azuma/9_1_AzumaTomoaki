@@ -29,7 +29,9 @@
                                     <td>@{{ bookmark.title }}</td>
                                     <td>@{{ bookmark.comment }}</td>
                                     <td class="text-right">@{{ date_format(bookmark.created_at) }}</td>
-                                    <td class="text-center"><a v-bind:href="'/bookmark/edit/'+bookmark.id"><i class="fas fa-edit"></a></i></td>
+                                    <td class="text-center"><a v-bind:href="'/bookmark/edit/'+bookmark.id"><i class="fas fa-edit"></a></i>
+                                        <a v-bind:href="'/bookmark/destroy/'+bookmark.id"><i class="fas fa-trash-alt"></a></i>
+                                    </td>
                                 </tr>
                             </template>
                             
